@@ -15,6 +15,9 @@
         public BooksDbContext()
             : base("name=BooksDbContext")
         {
+            //自動マイグレーション機能を有効にするための何かだけど
+            //何をやっているのかはわからない
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BooksDbContext, Configuration>());
         }
 
         public DbSet<Book> Books { get; set; }

@@ -12,16 +12,16 @@ namespace EntityFrameworkTest
         static void Main(string[] args)
         {
             //データ追加
-            //InsertBooks();
+            InsertBooks();
 
             //データ読み取り
             //ReadBooks();
 
             //書籍情報アップデート
-            //UpdateBook();
+            //UpdateBook("沈まぬ太陽", 2999);
 
             //書籍情報削除
-            DeleteBook();
+            //DeleteBook();
         }
 
         /// <summary>
@@ -43,17 +43,24 @@ namespace EntityFrameworkTest
         }
 
         /// <summary>
-        /// 書籍情報アップデート
+        /// 書籍発行年更新
         /// </summary>
-        static void UpdateBook()
+        /// <param name="bookName">更新対象の書籍名</param>
+        /// <param name="publishedYear">発行年</param>
+        static void UpdateBook(string bookName, int publishedYear)
         {
             using (var db = new BooksDbContext())
             {
                 //.Singleにて唯一の一致するレコードを返す
-                var book = db.Books.Single(x => x.Title == "沈まぬ太陽");
-                //ありえない数字を入れる
-                book.PublishedYear = 2333;
-                db.SaveChanges();
+                //var book = db.Books.Single(x => x.Title == "沈まぬ太陽");
+                //.SingleOrDefault レコードが存在しない場合規定値を返す。
+                var book = db.Books.SingleOrDefault(x => x.Title == bookName);
+                if (book != null)
+                {
+                    //ありえない数字を入れる
+                    book.PublishedYear = publishedYear;
+                    db.SaveChanges();
+                }
             }
         }
 
